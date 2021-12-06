@@ -1,10 +1,16 @@
 const express = require("express");
 const path = require("path");
 var app = express();
-var server = app.listen(3000, function () {
-  console.log("Listening on port 3000");
+const fs = require("fs"),
+      http = require("http"),
+      https = require("https");
+const options ={
+        key:fs.readFileSync(__dirname +'/ssl/'+ '/key.pem', 'utf8'),
+        cert:fs.readFileSync(__dirname +'/ssl/'+ '/cert.pem', 'utf8')
+};
+var server = https.createServer(options, app).listen(3000, function(){
+console.log("Listening on port 3000");
 });
-const fs = require("fs");
 const fileUpload = require("express-fileupload");
 const io = require("socket.io")(server, {
   allowEIO3: true, // false by default
